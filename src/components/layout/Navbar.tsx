@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { 
@@ -23,6 +24,11 @@ const Navbar = () => {
   const { user, logout, cart, isAuthenticated } = useApp();
   
   const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0);
+  
+  const handleLogout = () => {
+    logout();
+    // Navigation is now handled in the logout function
+  };
   
   return (
     <nav className="sticky top-0 z-50 bg-background border-b border-border shadow-sm">
@@ -85,7 +91,7 @@ const Navbar = () => {
                     <Link to="/orders" className="w-full">Orders</Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={logout}>
+                  <DropdownMenuItem onClick={handleLogout}>
                     <LogOut className="h-4 w-4 mr-2" />
                     Logout
                   </DropdownMenuItem>

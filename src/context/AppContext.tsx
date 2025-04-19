@@ -1,5 +1,7 @@
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { toast } from 'sonner';
+import { useNavigate } from 'react-router-dom';
 
 export interface User {
   id: string;
@@ -68,15 +70,21 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       }
     }
     
-    // Load cart from localStorage
-    const storedCart = localStorage.getItem('ecoCartItems');
-    if (storedCart) {
-      try {
-        setCart(JSON.parse(storedCart));
-      } catch (error) {
-        console.error('Failed to parse stored cart data', error);
-        localStorage.removeItem('ecoCartItems');
+    // Load cart from localStorage - make it user-specific
+    if (storedUser) {
+      const userId = JSON.parse(storedUser).id;
+      const storedCart = localStorage.getItem(`ecoCartItems_${userId}`);
+      if (storedCart) {
+        try {
+          setCart(JSON.parse(storedCart));
+        } catch (error) {
+          console.error('Failed to parse stored cart data', error);
+          localStorage.removeItem(`ecoCartItems_${userId}`);
+        }
       }
+    } else {
+      // Clear cart if no user
+      setCart([]);
     }
     
     setIsLoading(false);
@@ -85,10 +93,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     fetchProducts();
   }, []);
 
-  // Save cart to localStorage whenever it changes
+  // Save cart to localStorage whenever it changes - make it user-specific
   useEffect(() => {
-    localStorage.setItem('ecoCartItems', JSON.stringify(cart));
-  }, [cart]);
+    if (user) {
+      localStorage.setItem(`ecoCartItems_${user.id}`, JSON.stringify(cart));
+    }
+  }, [cart, user]);
 
   const login = async (email: string, password: string) => {
     setIsLoading(true);
@@ -111,6 +121,17 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       const userData = await response.json();
       setUser(userData);
       localStorage.setItem('ecoCartUser', JSON.stringify(userData));
+      
+      // Load user-specific cart after login
+      const storedCart = localStorage.getItem(`ecoCartItems_${userData.id}`);
+      if (storedCart) {
+        try {
+          setCart(JSON.parse(storedCart));
+        } catch (error) {
+          console.error('Failed to parse stored cart data', error);
+        }
+      }
+      
       toast.success('Logged in successfully');
     } catch (error) {
       console.error('Login error:', error);
@@ -123,6 +144,16 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       };
       setUser(mockUser);
       localStorage.setItem('ecoCartUser', JSON.stringify(mockUser));
+      
+      // Load user-specific cart after mock login
+      const storedCart = localStorage.getItem(`ecoCartItems_${mockUser.id}`);
+      if (storedCart) {
+        try {
+          setCart(JSON.parse(storedCart));
+        } catch (error) {
+          console.error('Failed to parse stored cart data', error);
+        }
+      }
     } finally {
       setIsLoading(false);
     }
@@ -158,9 +189,18 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const logout = () => {
+    // Clear user data
+    const userId = user?.id;
     setUser(null);
     localStorage.removeItem('ecoCartUser');
+    
+    // Clear cart on logout
+    setCart([]);
+    
     toast.info('Logged out successfully');
+    
+    // Force navigation to home page by reloading to /
+    window.location.href = '/';
   };
 
   const addToCart = (product: Product) => {
