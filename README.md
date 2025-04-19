@@ -1,73 +1,59 @@
-# Welcome to your Lovable project
 
-## Project info
+# EcoCart - Sustainable Shopping Assistant
 
-**URL**: https://lovable.dev/projects/45ad886b-53c3-4df2-a379-4efe27b5c191
+## Project Setup and Running in VS Code
 
-## How can I edit this code?
+### Prerequisites
+- Node.js (version 18.x or later)
+- npm (comes with Node.js)
+- VS Code installed
 
-There are several ways of editing your application.
+### Step-by-Step Setup
 
-**Use Lovable**
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/MorePraveen/green-cart-guide.git
+   cd green-cart-guide
+   ```
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/45ad886b-53c3-4df2-a379-4efe27b5c191) and start prompting.
+2. **Install Dependencies**
+   ```bash
+   npm install
+   ```
 
-Changes made via Lovable will be committed automatically to this repo.
+3. **Set Up Environment Variables**
+   Create a `.env` file in the project root with the following:
+   ```
+   MONGODB_URI=mongodb+srv://morepraveen07:<db_password>@hack.zhwsi6n.mongodb.net/
+   ```
+   Replace `<db_password>` with your actual MongoDB password.
 
-**Use your preferred IDE**
+4. **Start the Development Server**
+   ```bash
+   npm run dev
+   ```
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+5. **Open in Browser**
+   - The application will typically run on `http://localhost:8080`
+   - Open this URL in your web browser
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### Troubleshooting
+- Ensure all dependencies are installed correctly
+- Check your MongoDB connection string
+- Verify Node.js and npm versions
 
-Follow these steps:
+### Additional Commands
+- `npm run build`: Create production build
+- `npm test`: Run tests (if configured)
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
+## Technologies Used
 - React
-- shadcn-ui
+- TypeScript
+- Vite
 - Tailwind CSS
+- MongoDB
+- React Router
 
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/45ad886b-53c3-4df2-a379-4efe27b5c191) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+## Contributing
+Please read the contribution guidelines before making any changes.
+```
